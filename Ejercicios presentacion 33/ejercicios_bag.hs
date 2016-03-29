@@ -48,4 +48,26 @@ bagEqual ((z,x):xs) ((c,v):vs) = if (z==c && x==v) then True && bagEqual xs vs e
 bagSubbag [] [] = True
 bagSubbag _ [] = False
 bagSubbag [] _ = False
-bagSubbag ((z,x):xs) ((n,m):ms) = if z==n && x==m then True && bagSubbag xs ms else bagSubbag ((z,x):xs) ms
+bagSubbag ((z,x):xs) ((n,m):ms) = if z==n && x==m then True && bagSubbag xs ms 
+                                    else bagSubbag ((z,x):xs) ms
+
+-- ejercicio i
+{- Toma 2 bags y calcula el bag interseccion. La intersección de 2 bags X e Y contiene
+   a todos los elementos comunes a X e Y con la menos cantidad posible de ocurrencias -}
+bagInter [] _ = []
+bagInter ((z,x):xs) ((c,v):vs) = if (a > 0) then (z,x):bagInter xs ((c,v):vs) else bagInter xs ((c,v):vs)
+                                  where
+                                    a = bagminimo [(z,x)] ((c,v):vs)
+
+bagminimo [] [] = 0
+bagminimo _ [] = 0
+bagminimo [] _ = 0
+bagminimo [(a,n)] ((b,m):ys) = if (a == b) then min n m else bagminimo [(a,n)] ys
+
+-- ejercicio j
+-- Calcula el bag union de dos bags
+bagSum [] vs = []
+bagSum ((z,x):xs) vs = bagSum xs (insertarbag z x vs)
+
+insertarbag z 1 vs = bagInsert z vs
+insertarbag z x vs = bagInsert z (insertarbag z (x-1) vs)
